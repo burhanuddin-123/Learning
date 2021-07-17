@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TO DO LIST</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body{
+            background-color: skyblue;
+			background-repeat: no-repeat;
+			background-size: 1280px 900px;
+			text-align: center;
+			font-size: 22px;
+			color: White;
+        }
+        h1{
+			color: white;
+			font-family: cursive;
+		}
+        .form1{
+			background:rgba(0,0,255,0.3);
+			padding: 24px;
+			margin-top:0px;
+			width: 28%;
+			position: absolute;
+			left:35%;
+			border-radius: 15px;
+		}
+		.display{
+		    background: white;
+			padding: 24px;
+			border-radius: 15px;
+		}
+		input{
+			border-radius: 7px;
+			text-align: center;
+		}
+		input[type="text"]{
+			font-size: 18px;
+		}
+		input[type="submit"]{
+			font-size: 20px;
+			height: 40px;
+			background-color: #00FF7F;
+        }
+        input[type="submit"]:hover{
+			color:white;
+			background-color: blue;
+		}
+		.btn {
+          background-color: grey;
+          border: none;
+          color: white;
+          padding: 5px 10px;
+          font-size: 16px;
+          cursor: pointer;
+          align: right;
+        }
+
+    </style>
+</head>
+<body>
+<h1>Form</h1>
+    <div class="form1">
+<div>
+    <form action="/add" method="post">
+        <input type="text" placeholder="Enter the item" name="todoitem" />
+        <input type="submit" value="ADD">
+        <br><br>
+
+    </form>
+</div>
+        <form class="display" action="{{ url_for('update') }}" method="post">
+            {% for todo in todos %}
+            <li style="font-size: 20pt; color: black; text-align:left;">
+                {{ todo.text }}
+                <a href=""><button class="btn"><i class="fa fa-trash"></i></button></a>
+                <a href=""><button class="btn"><i class="fa fa-edit"></i></button></a>
+            </li>
+            {% endfor %}
+            <br><br>
+            <input type="submit" value="Update">
+            </form>
+    </div>
+</body>
+</html>
