@@ -21,9 +21,9 @@
 			background:rgba(0,0,255,0.3);
 			padding: 24px;
 			margin-top:0px;
-			width: 28%;
+			width: 48%;
 			position: absolute;
-			left:35%;
+			left:25%;
 			border-radius: 15px;
 		}
 		.display{
@@ -70,17 +70,37 @@
 
     </form>
 </div>
-        <form class="display" action="{{ url_for('update') }}" method="post">
-            {% for todo in todos %}
-            <li style="font-size: 20pt; color: black; text-align:left;">
+        <div class="display">
+<!--        <form class="display" action="{{ url_for('update') }}" method="post">-->
+
+            <div>
+                <h1 style="color: black;">InComplete</h1>
+                {% for todo in incomplete %}
+            <li style="font-size: 20pt; color: black; text-align:left;" name="{{ todo.id }}">
                 {{ todo.text }}
-                <a href=""><button class="btn"><i class="fa fa-trash"></i></button></a>
-                <a href=""><button class="btn"><i class="fa fa-edit"></i></button></a>
+                <a href="{{ url_for('delete', id=todo.id) }}"><button class="btn"><i class="fa fa-trash"></i></button></a>
+                <a href="{{ url_for('complete', id=todo.id) }}"><button class="btn"><i class="fa fa-times"></i></button></a>
             </li>
             {% endfor %}
+            </div>
+            <div>
+                <h1 style="color: black;">Complete</h1>
+            {% for todo in complete %}
+            <li style="font-size: 20pt; color: black; text-align:left;" name="{{ todo.id }}">
+                {{ todo.text }}
+                <a href="{{ url_for('delete', id=todo.id) }}"><button class="btn"><i class="fa fa-trash"></i></button></a>
+                <a href="{{ url_for('complete', id=todo.id) }}"><button class="btn"><i class="fa fa-check"></i></button></a>
+            </li>
+            {% endfor %}
+            </div>
             <br><br>
-            <input type="submit" value="Update">
-            </form>
+
+            <a href="{{ url_for('update') }}">
+        <button class="btn" style="font-size: 20px; background-color: #00FF7F; color: black; border-radius:10px;">UPDATE
+        </button>
+        </a>
+<!--            <input type="submit" value="Update">-->
+<!--            </form>-->
     </div>
 </body>
 </html>
