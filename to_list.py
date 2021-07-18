@@ -22,11 +22,12 @@ class Todo(db.Model):
 
 @app.route('/')
 def index():
-    todos = Todo.query.all()
-    return render_template('list.html', todos=todos)
+    incomplete = Todo.query.filter_by(complete=False).all()
+    complete = Todo.query.filter_by(complete=True).all()
+    return render_template('list.html', incomplete=incomplete, complete=complete )
 
 @app.route('/add', methods=['POST'])
-def add():
+def add():  # create
     todo = Todo(text=request.form['todoitem'], complete=False)
     db.session.add(todo)
     db.session.commit()
@@ -35,10 +36,35 @@ def add():
     return redirect(url_for('index'))
 
 @app.route('/upload', methods=['POST','GET'])
-def update():
-    if request.method == 'POST':
-        return redirect(url_for('index'))
+def update(): # update
+    complete = Todo.query.filter_by(complete=True).all()
+    return render_template('upload.html', todos=complete)
 
+@app.route('/delete/<id>')
+def delete(id): # delete
+    todo = Todo.query.filter_by(id=int(id)).first()
+    db.session.delete(todo)
+    db.session.commit()
+    return redirect(url_for('index'))
+
+@app.route('/complete/<id>')
+def complete(id):
+    # return f"<h1>{id}</h1>"
+    todo = Todo.query.filter_by(id=int(id)).first()
+    if todo.complete == True:
+        todo.complete =False
+    else:
+        todo.complete = True
+    db.session.commit()
+    return redirect(url_for('index'))
+
+@app.route('/delete_all')
+def delete_all():
+    todos = Todo.query.all()
+    for todo in todos:
+        db.session.delete(todo)
+    db.session.commit()
+    return redirect(url_for('update'))
 
 if __name__ == '__main__':
     app.run(debug=True)
